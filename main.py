@@ -2,11 +2,13 @@ import random
 import os
 import json
 
+import time
+
 from core.crypto import encrypt_message, decrypt_message
 from core.shredder import shred, unshred
 
 os.remove("logs.txt") if os.path.exists("logs.txt") else None
-
+start = time.time()
 
 message = """
 the internet is a vast, vast place. 
@@ -34,3 +36,7 @@ print(f"Decrypted Chunks: {d_msg_chunks}\n----\n", file=open("logs.txt", "a"))
 final_msg = unshred(d_msg_chunks)
 # reconstruct the original message from decrypted chunks, ensuring correct order based on frame tags
 print(f"Unshredded: {final_msg}\n----\n", file=open("logs.txt", "a"))
+
+finish = time.time()
+print(f"Time taken: {finish - start:.4f} seconds", file=open("logs.txt", "a"))
+print(f"time taken: {finish - start:.4f} seconds")

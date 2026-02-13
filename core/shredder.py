@@ -1,4 +1,4 @@
-# Interleaving, scrambling, unscrambling and padding
+# interleaving, scrambling, unscrambling and padding
 
 
 def shred(data: str, num_chunks=10):
@@ -18,21 +18,24 @@ def unshred(chunks: list[str]) -> str:
     Returns:
         The reconstructed original string
     """
-    # Initialize result array with placeholders for each character position
+    # initialize result array with placeholders for each character position
     res: list[str | None] = []
 
-    # Iterate through each chunk with its index
+    # iterate through each chunk with its index
     for chunk_idx, chunk in enumerate(chunks):
-        # Process each character in the current chunk
+        # deliberately skip chunk 8 to simulate a missing chunk scenario
+        if chunk_idx == 8:
+            continue
+        # process each character in the current chunk
         for char_idx, char in enumerate(chunk):
-            # Calculate original position: char was at position (char_idx * 10 + c_idx)
+            # calculate original position: char was at position (char_idx * 10 + c_idx)
             # because shred() distributed characters round-robin across 10 chunks
             original_pos: int = char_idx * 10 + chunk_idx
 
-            # Ensure the result list is long enough to hold the character at original_pos
+            # ensure the result list is long enough to hold the character at original_pos
             while len(res) <= original_pos:
-                res.append(None)  # Fill with None until we reach the required length
-            res[original_pos] = char  # Place the character in its original position
+                res.append(None)  # fill with None until we reach the required length
+            res[original_pos] = char  # place the character in its original position
 
     # Join all characters into final string
     return "".join(char if char is not None else "?" for char in res)
